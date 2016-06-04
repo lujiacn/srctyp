@@ -6,7 +6,7 @@ import (
 	// "gopkg.in/mgo.v2"
 	"io/ioutil"
 	// "os"
-	"repal/app/lib"
+	"github.com/lujiacn/csvutils"
 	"strings"
 )
 
@@ -56,14 +56,14 @@ func (c *FileSource) load(fileName string) (err error) {
 	}
 	switch strings.ToLower(fileExt) {
 	case "csv":
-		c.colNames, err = lib.ReadCsvColNames(fileName)
-		c.readChFunc = lib.ReadCsvToArrayCh
+		c.colNames, err = csvutils.ReadCsvColNames(fileName)
+		c.readChFunc = csvutils.ReadCsvToArrayCh
 		if err != nil {
 			return err
 		}
 	case "xls", "xlsx":
-		c.colNames, err = lib.ReadXlsColNames(fileName)
-		c.readChFunc = lib.ReadXlsToArrayCh
+		c.colNames, err = csvutils.ReadXlsColNames(fileName)
+		c.readChFunc = csvutils.ReadXlsToArrayCh
 		if err != nil {
 			return err
 		}
@@ -77,7 +77,7 @@ func (c *FileSource) load(fileName string) (err error) {
 
 //must before Read()
 func (c *FileSource) RemoteColNames() ([]string, error) {
-	return lib.ColNameReplace(c.colNames), nil
+	return csvutils.ColNameReplace(c.colNames), nil
 }
 
 func (c *FileSource) RemoteRead() ([]string, error) {

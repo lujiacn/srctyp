@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"errors"
 	// "fmt"
+	"github.com/lujiacn/csvutils"
 	"github.com/lujiacn/sqlutils"
-	"repal/app/lib"
 	// "strings"
 )
 
@@ -45,7 +45,7 @@ func (o *SqlSource) RemoteColNames() (colNames []string, err error) {
 		return nil, err
 
 	}
-	return lib.ColNameReplace(colNames), nil
+	return csvutils.ColNameReplace(colNames), nil
 }
 
 //Read is iterator, return one row each time, cannot be used with ReadAll() together

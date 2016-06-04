@@ -9,9 +9,9 @@ import (
 	"github.com/lujiacn/rservcli"
 	"gopkg.in/mgo.v2/bson"
 	// "io/ioutil"
+	"github.com/lujiacn/csvutils"
 	"os"
 	"reflect"
-	"repal/app/lib"
 )
 
 //RSrouce for r file type
@@ -93,7 +93,7 @@ func (r *RSource) init(argData bson.M, colMap map[string][]string, mongoDB strin
 	sink(t_con, type="message")
 	if(!require(mongolite)){
 		install.packages("mongolite", repo="http://cran.us.r-project.org")
-		library(mongolite)
+		csvutilsrary(mongolite)
 	}
 	extData <- mongo(collection="ExtData", db="%s", url="%s")
 	`, mongoDB, mongoUrl)
@@ -123,7 +123,7 @@ func (r *RSource) dataframeIterator() error {
 	if (!require("iterators")) {
   		install.packages("iterators", repos='http://cran.us.r-project.org')
 	}
-	library("iterators")
+	csvutilsrary("iterators")
 	output_iter <- iter(dataframe_output, by='row')
 	`
 	err := r.rClient.VoidEval(script)
@@ -282,5 +282,5 @@ func (r *RSource) RemoteReadCh() chan interface{} {
 		return resultC
 	}
 	tempFileName := rawData.(string)
-	return lib.ReadCsvToArrayCh(tempFileName)
+	return csvutils.ReadCsvToArrayCh(tempFileName)
 }
